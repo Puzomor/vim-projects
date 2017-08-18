@@ -38,7 +38,16 @@ function s:PrepArgs(file)
   endif
 endfunction
 
+function s:OpenProjectFile(directory)
+  l:project_file = s:FindProjectFile(a:directory)
+  if !empty(l:project_file)
+    execute("edit ".l:project_file)
+  endif
+endfunction
+
 augroup VimProjects
   autocmd!
   autocmd BufReadPre * :call s:PrepArgs(expand("<afile>:p"))
 augroup END
+
+command VimProjectsOpen :call s:OpenProjectFile(expand("%:p:h"))
